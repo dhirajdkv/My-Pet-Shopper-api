@@ -6,6 +6,8 @@ const crypto = require("crypto");
 const cloudinary = require("cloudinary").v2;
 const getDataUri = require("../utils/dataUri");
 const Cart = require("../models/cartModel");
+const { log } = require("console");
+const fileUpload = require("express-fileupload");
 
 // Regiser a User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -19,12 +21,6 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
           "Email is already registered. Please use a different email address.",
       });
     }
-
-    const image = req.files.image;
-    const fileUri = getDataUri(image);
-    myCloud = await cloudinary.uploader.upload(fileUri.content, {
-      folder: "csci467",
-    });
     const { name, email, password } = req.body;
 
     const user = await User.create({
@@ -34,8 +30,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
       verificationToken: "ldhkddk",
       verified: true,
       avatar: {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url,
+        public_id: "csci467/mzxiyuthscrzdvfzigrn",
+        url: "https://res.cloudinary.com/dvgltz0vl/image/upload/v1716003682/csci467/mzxiyuthscrzdvfzigrn.png",
       },
     });
 
@@ -44,7 +40,6 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
       message: `${user.email} SignUp successfull!`,
     });
   } catch (error) {
-    await cloudinary.uploader.destroy(myCloud.public_id);
     return next(new ErrorHandler(error.message, 500));
   }
 });
