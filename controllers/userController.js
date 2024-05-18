@@ -23,7 +23,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     const image = req.files.image;
     const fileUri = getDataUri(image);
     myCloud = await cloudinary.uploader.upload(fileUri.content, {
-      folder: "MyPetShopper",
+      folder: "csci467",
     });
     const { name, email, password } = req.body;
 

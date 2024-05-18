@@ -14,7 +14,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
   for (const file of fileArray) {
     const fileUri = getDataUri(file);
     const myCloud = await cloudinary.uploader.upload(fileUri.content, {
-      folder: "MyPetShopper",
+      folder: "csci467",
     });
     uploadedImages.push({
       public_id: myCloud.public_id,
